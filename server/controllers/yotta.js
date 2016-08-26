@@ -19,7 +19,7 @@ exports.expand = (req, res) => {
     query.exec().then(
       (doc) => {
         if (doc) {
-          res.status(200).send(`already exists (created ${doc.updated_on}) http://localhost:1104/${doc.yotta_code}`);
+          res.status(200).send(`already exists (created ${doc.updated_on}) http://localhost:8080/${doc.yotta_code}`);
           res.end();
         }
         else {
@@ -33,7 +33,7 @@ exports.expand = (req, res) => {
     .then(
       doc => {
         if (doc) {
-          res.status(201).send(`url ${doc.target_url} created successfully on ${doc.created_on}: http://localhost:1104/${doc.yotta_code}`);
+          res.status(201).send(`url ${doc.target_url} created successfully on ${doc.created_on}: http://localhost:8080/${doc.yotta_code}`);
           res.end();
         }
       }

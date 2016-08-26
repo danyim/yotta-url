@@ -17,17 +17,17 @@ The hashing function creates an [avalanche effect](https://en.wikipedia.org/wiki
 
 ## Installation
 1. Run `npm install` on the root directory to grab dependencies
-2. Copy `./server/mongo-config.sample.json` to `./server/mongo-config.json` and edit the file with your credentials
+2. Copy `./.env.sample` to `./.env` and edit the file with your credentials
 3. Start the server via `npm run start:server`
-4. Send a GET request to http://localhost:1104/expand?[your URL here]
+4. Send a GET request to http://localhost:8080/expand?[your URL here]
     - It will return a URL you can share
-5. Send a GET request to http://localhost:1104/\[URL code\] (replace with your URL code returned from the previous step)
+5. Send a GET request to http://localhost:8080/\[URL code\] (replace with your URL code returned from the previous step)
     - You will be redirected to the correct URL
 
 ## Deployment
 - If you want to deploy this to Heroku, upload it as-is and define the following environment variables:
 
-    `heroku config:set MONGO_HOSTNAME=http://my.mongo.db/1234 MONGO_USER=user MONGO_PASSWORD=pass`
+    `heroku config:set MONGO_HOSTNAME=hostname.mongodb.com/1234 MONGO_USER=user MONGO_PASSWORD=pass`
 
 ## License
   MIT
