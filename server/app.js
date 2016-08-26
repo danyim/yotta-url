@@ -1,5 +1,6 @@
 const express = require('express');
-const yottaHasher = require('./yotta-hash');
+const yottacize = require('./yotta-hash');
+const Yotta = require('./models/Yotta');
 
 const app = express();
 const PORT = 1104;
@@ -11,22 +12,56 @@ app.param('urlcode', (req, res, next, val) => {
 
 app.get('/expand', (req, res) => {
   if (req.query !== {} && req.query.q) {
-    res.status(201).send(`you provided the url ${req.query.q}`);
+    Yotta.find({ target_url: req.query.q }, (err, record) => {
+      if (record.length > 1) {
+        res.status(200).send(`already exists http://localhost:1104/${record[0].yotta_code}`);
+        res.end();
+      }
+    });
+    const yottaCode = yottacize(req.query.q);
+    const y = new Yotta({
+      target_url: req.query.q,
+      yotta_code: yottaCode
+    });
+
+    y.save(err => {
+      if (err) {
+        res.status(400).send('there was an error creating');
+        res.end();
+      }
+      else {
+        res.status(201).send(`url ${req.query.q} created successfully: http://localhost:1104/${yottaCode}`);
+        res.end();
+      }
+    });
   } else {
     res.status(400).send('no url provided');
+    res.end();
   }
-  res.end();
 });
 
 app.get('/:urlcode', (req, res) => {
-  res.status(200).send(`youre looking for ${req.params.urlcode}`);
-  res.end();
+  Yotta.find({ yotta_code: req.params.urlcode }, (err, record) => {
+    if (err) {
+      res.status(400).send('error while searching');
+      res.end();
+    }
+    else {
+      if(record.length === 0) {
+        res.status(404).send('not found');
+        res.end();
+      }
+      else {
+        res.status(200).send(`found it! ${record.target_url}`);
+        res.end();
+      }
+    }
+  });
 });
 
 app.listen(PORT, () => {
   console.log('yotta-url running:', PORT);
-  debugger;
-  yottaHasher.yottacize('http://thisisarealurl.com/somethingREAL');
-  yottaHasher.yottacize('http://thisisarealurl.com/somethingREAL2');
+  // yottacize('http://google.com');
+  // yottacize('http://google.com/');
 });
 
