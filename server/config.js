@@ -1,4 +1,4 @@
-const mongo = require('./mongo-config');
+// const mongo = require('./mongo-config');
 
 const config = {};
 
@@ -13,11 +13,13 @@ if (process.env.MONGO_HOSTNAME &&
   };
 }
 else {
-  config.mongo = {
-    hostname: mongo.hostname,
-    user: mongo.user,
-    password: mongo.password
-  };
+  throw new Error('Environment variables not set up');
+
+  // config.mongo = {
+  //   hostname: mongo.hostname,
+  //   user: mongo.user,
+  //   password: mongo.password
+  // };
 }
 
 module.exports = config;
