@@ -4,9 +4,9 @@ const yotta = require('./controllers/yotta');
 const app = express();
 const PORT = process.env.PORT || 1104;
 
-app.param('urlcode', yotta.urldecode);
+app.param('yottacode', yotta.yottacode);
 app.get('/expand', yotta.expand);
-app.get('/:urlcode', yotta.fetch);
+app.get('/:yottacode', yotta.fetch);
 app.get('/', yotta.default);
 
 app.listen(PORT, () => {

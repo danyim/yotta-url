@@ -14,10 +14,6 @@ const yottaSchema = new Schema({
   updated_on: Date,
 });
 
-yottaSchema.methods.generateYotta = () => {
-  this.yotta_code = yottacize(this.target_urL);
-};
-
 yottaSchema.pre('save', function(next) {
   // Update the date fields
   const currDate = new Date();
@@ -26,13 +22,27 @@ yottaSchema.pre('save', function(next) {
     this.created_on = currDate;
   }
 
-  // // Create a yotta code if it doesn't exist
-  // if (!this.yotta_code) {
-  //   this.yotta_code = yottacize(this.target_url);
-  // }
+  // Create a yotta code if it doesn't exist
+  if (!this.yotta_code) {
+    this.yotta_code = yottacize(this.target_url);
+  }
 
   next();
 });
+
+yottaSchema.methods = {
+  generateYotta: () => {
+    this.yotta_code = yottacize(this.target_urL);
+  }
+}
+
+yottaSchema.statics = {
+  getUrl: function(yottacode) {
+    return this.findOne({ yotta_code: yottacode })
+      .select('target_url')
+      .exec();
+  }
+}
 
 const Yotta = mongoose.model('Yotta', yottaSchema);
 

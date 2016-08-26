@@ -1,10 +1,16 @@
-const yottacize = require('../yotta-hash');
+const { wrap: async } = require('co');
 const YottaModel = require('../models/Yotta');
 
-exports.urldecode = (req, res, next, val) => {
-  console.log('urlcode is', val);
+exports.yottacode = async(function* (req, res, next, id) {
+  try {
+    req.yottaUrl = yield YottaModel.getUrl(id);
+    if(!req.yottaUrl) return next(new Error(`yottacode not found`));
+  }
+  catch(err) {
+    return next(err)
+  }
   next();
-};
+});
 
 exports.expand = (req, res) => {
   if (req.query !== {} && req.query.q) {
@@ -13,14 +19,12 @@ exports.expand = (req, res) => {
     query.exec().then(
       (doc) => {
         if (doc) {
-          res.status(200).send(`already exists http://localhost:1104/${doc.yotta_code}`);
+          res.status(200).send(`already exists (created ${doc.updated_on}) http://localhost:1104/${doc.yotta_code}`);
           res.end();
         }
         else {
-          const yottaCode = yottacize(req.query.q);
           const y = new YottaModel({
-            target_url: req.query.q,
-            yotta_code: yottaCode
+            target_url: req.query.q
           });
           return y.save();
         }
@@ -48,25 +52,7 @@ exports.expand = (req, res) => {
 };
 
 exports.fetch = (req, res) => {
-  const query = YottaModel.findOne({ yotta_code: req.params.urlcode });
-
-  query.then(
-    (doc) => {
-      if(doc) {
-        res.redirect(doc.target_url);
-      }
-      else {
-        res.status(404).send('not found');
-        res.end();
-      }
-    }
-  )
-  .catch(
-    err => {
-      res.status(400).send(`error while searching ${err.toString()}`);
-      res.end();
-    }
-  );
+  res.redirect(req.yottaUrl.target_url);
 };
 
 exports.default = (req, res) => {
