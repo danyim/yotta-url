@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const yottacize = require('../yotta-hash');
-const config = require('../mongo-config');
+const config = require('../config');
 
-mongoose.connect(`mongodb://${config.username}:${config.password}@${config.host}`);
+mongoose.connect(`mongodb://${config.mongo.user}:${config.mongo.password}@${config.mongo.hostname}`);
 mongoose.Promise = global.Promise; // Use native ES6 promises
 
 const Schema = mongoose.Schema;
@@ -18,7 +18,7 @@ yottaSchema.methods.generateYotta = () => {
   this.yotta_code = yottacize(this.target_urL);
 };
 
-yottaSchema.pre('save', next => {
+yottaSchema.pre('save', function(next) {
   // Update the date fields
   const currDate = new Date();
   this.updated_on = currDate;
