@@ -2,7 +2,7 @@
 
 > _Yotta_ is the largest decimal unit prefix in the metric system, denoting a factor of 10 or 1000000000000000000000000
 
-URL shortening is _so_ yesterday. What if we instead lengthened a URL into a wall of hashed text? yotta-url will take your URL and _expand_ it to the maximum allowable length (2083 characters for IE)
+URL shortening is _so_ yesterday. What if we instead lengthened a URL into a giant _wall of hashed text_? yotta-url does just that. It will take your URL and expand it to the maximum allowable length (a limit imposed by the stepchild of browsers: 2083 characters for IE).
 
 The engine features a complete, [cryptographically](https://en.wikipedia.org/wiki/RC4#Key-scheduling_algorithm_.28KSA.29)-[sound](https://en.wikipedia.org/wiki/RC4#Pseudo-random_generation_algorithm_.28PRGA.29) [hashing function](https://en.wikipedia.org/wiki/Merkle%E2%80%93Damg%C3%A5rd_construction) that will turn your run-of-the-mill `http://google.com` query into...
 
@@ -12,9 +12,12 @@ The hashing function creates an [avalanche effect](https://en.wikipedia.org/wiki
 
     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
 
+## Requires
+  - Node, a MongoDB instance you can write to, and a dash of boredom
+
 ## Installation
-1. Run `npm install` on the root directory
-2. Copy `./server/mongo-config.sample.json` to `./server/mongo-config.json` and edit with your credentials
+1. Run `npm install` on the root directory to grab dependencies
+2. Copy `./server/mongo-config.sample.json` to `./server/mongo-config.json` and edit the file with your credentials
 3. Start the server via `npm run start:server`
 4. Send a GET request to http://localhost:1104/expand?[your URL here]
     - It will return a URL you can share

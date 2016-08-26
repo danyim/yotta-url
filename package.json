@@ -1,15 +1,19 @@
 {
   "name": "yotta-url",
   "version": "1.0.0",
-  "description": "A URL expander (instead of shortening)",
+  "description": "A URL expandificationifyzer",
   "main": "app.js",
   "scripts": {
     "start:server": "node server/app.js",
-    "test": "ava -v"
+    "test": "ava -v **/*.spec.js",
+    "watch": "ava -vw **/*.spec.js"
+  },
+  "engines": {
+    "node": "6.4.x"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/danyim/yotta-url.git"
+    "url": "https://github.com/danyim/yotta-url.git"
   },
   "author": "Daniel Yim (danielyim@gmail.com)",
   "license": "MIT",
@@ -20,5 +24,8 @@
   "dependencies": {
     "express": "^4.14.0",
     "mongoose": "^4.5.10"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0"
   }
 }
