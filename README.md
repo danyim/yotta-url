@@ -2,7 +2,7 @@
 
 > _Yotta_ is the largest decimal unit prefix in the metric system, denoting a factor of 10 or 1000000000000000000000000
 
-URL shortening is _so yesterday_. What if we instead lengthened a URL to a wall of hashed text? yotta-url will take your URL and expand it to the maximum allowable length (2083 characters for IE)
+URL shortening is _so_ yesterday. What if we instead lengthened a URL into a wall of hashed text? yotta-url will take your URL and _expand_ it to the maximum allowable length (2083 characters for IE)
 
 The engine features a complete, [cryptographically](https://en.wikipedia.org/wiki/RC4#Key-scheduling_algorithm_.28KSA.29)-[sound](https://en.wikipedia.org/wiki/RC4#Pseudo-random_generation_algorithm_.28PRGA.29) [hashing function](https://en.wikipedia.org/wiki/Merkle%E2%80%93Damg%C3%A5rd_construction) that will turn your run-of-the-mill `http://google.com` query into...
 
@@ -20,3 +20,6 @@ The hashing function creates an [avalanche effect](https://en.wikipedia.org/wiki
     - It will return a URL you can share
 5. Send a GET request to http://localhost:1104/\[URL code\] (replace with your URL code returned from the previous step)
     - You will be redirected to the correct URL
+
+## License
+  MIT
