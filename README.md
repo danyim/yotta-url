@@ -26,7 +26,8 @@ The hashing function creates an [avalanche effect](https://en.wikipedia.org/wiki
 
 ## Deployment
 - If you want to deploy this to Heroku, upload it as-is and define the following environment variables:
-  - `MONGO_HOSTNAME`, `MONGO_USER`, `MONGO_PASSWORD`
+
+    `heroku config:set MONGO_HOSTNAME=http://my.mongo.db/1234 MONGO_USER=user MONGO_PASSWORD=pass`
 
 ## License
   MIT
