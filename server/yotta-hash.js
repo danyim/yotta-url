@@ -4,8 +4,11 @@
 // Common use cases will be "http://localhost:1104/" (default URL: 22 chars)
 // or a Heroku deployment "https://red-ocean-sky.herokuapp.com/" (36 chars).
 // We'll play it safe and leave 45 characters for the host:
+let config = {
+  debug: false
+};
 const TARGET_LEN = 2083 - 45;
-const BLOCK_SIZE = 26;
+const BLOCK_SIZE = 8;
 const KEY_SPACE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.split('');
 // const KEY_SPACE = 'YOTTAyotta'.split('');
 
@@ -101,16 +104,30 @@ const finalization = (key, length, keySpace) => {
 };
 
 /**
- * One-way hashing function, per the Merkle-Damgård construction
- * @param  {String} input Input string
- * @return {String}       Hashed value
+ * Debug logger
  */
-const yottacize = input => {
+const logger = function() { // No arrow notation because we need arguments
+  if(config.debug === true) {
+    console.log(...arguments);
+  }
+}
+
+/**
+ * One-way hashing function, per the Merkle-Damgård construction
+ * @param  {String} input   Input string
+ * @param  {Object} options Options object
+ * @return {String}         Hashed value
+ */
+const yottacize = (input, options) => {
+  if(options) {
+    config = options;
+  }
+
   if (input === undefined || input.length === 0) {
     throw Error('No input provided');
   }
   const blocks = block(input, BLOCK_SIZE);
-  console.log(`1. string blocked (blksz: ${BLOCK_SIZE}) into`, blocks);
+  logger(`1. string blocked (blksz: ${BLOCK_SIZE}) into`, blocks);
 
   const workingBlocks = [...blocks]; // Create a working copy we can mutate
   let temp;
@@ -118,14 +135,14 @@ const yottacize = input => {
   // Collapse all blocks into one by applying the first block to the next until
   // there's only one left
   while (workingBlocks.length !== 1) {
+    str += `'${workingBlocks[0]}'${(workingBlocks.length === 1 ? '' : ' => ')}`;
     // Delete first element and save its value
     temp = workingBlocks.shift();
     workingBlocks[0] = compress(temp, workingBlocks[0], KEY_SPACE);
-    str += `'${workingBlocks[0]}'${(workingBlocks.length === 1 ? '' : ' => ')}`;
   }
-  console.log('2. blocks compressed into', `${str}, final: '${workingBlocks}'`);
+  logger(`2. block compression chain: ${str}; final: '${workingBlocks}'`);
   const result = finalization(workingBlocks[0], TARGET_LEN, KEY_SPACE);
-  console.log('3. finalization function applied', result);
+  logger(`3. finalization function applied to expand to ${TARGET_LEN} chars: ${result}`);
 
   return result;
 };

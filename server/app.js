@@ -1,6 +1,7 @@
 const express = require('express');
 const yottacize = require('./yotta-hash');
-const Yotta = require('./models/Yotta');
+const Yotta = require('./controllers/Yotta');
+const YottaModel = require('./models/Yotta');
 
 const app = express();
 const PORT = 1104;
@@ -10,30 +11,44 @@ app.param('urlcode', (req, res, next, val) => {
   next();
 });
 
+// TODO: move all the logic into controllers and keep the routes clean
 app.get('/expand', (req, res) => {
   if (req.query !== {} && req.query.q) {
-    Yotta.find({ target_url: req.query.q }, (err, record) => {
-      if (record.length > 1) {
-        res.status(200).send(`already exists http://localhost:1104/${record[0].yotta_code}`);
-        res.end();
-      }
-    });
-    const yottaCode = yottacize(req.query.q);
-    const y = new Yotta({
-      target_url: req.query.q,
-      yotta_code: yottaCode
-    });
+    const query = YottaModel.findOne({ target_url: req.query.q });
 
-    y.save(err => {
-      if (err) {
-        res.status(400).send('there was an error creating');
-        res.end();
+    query.exec().then(
+      (err, doc) => {
+        if (err) {
+          res.status(400).send('there was an error searching');
+          res.end();
+        }
+        if (doc) {
+          res.status(200).send(`already exists http://localhost:1104/${record[0].yotta_code}`);
+          res.end();
+        }
+        else {
+          const yottaCode = yottacize(req.query.q);
+          const y = new YottaModel({
+            target_url: req.query.q,
+            yotta_code: yottaCode
+          });
+          return y.save
+        }
       }
-      else {
-        res.status(201).send(`url ${req.query.q} created successfully: http://localhost:1104/${yottaCode}`);
-        res.end();
+    )
+    .then(
+      err => {
+        if (err) {
+          res.status(400).send('there was an error creating');
+          res.end();
+        }
+        else {
+          res.status(201).send(`url ${req.query.q} created successfully: http://localhost:1104/${yottaCode}`);
+          res.end();
+        }
       }
-    });
+    );
+
   } else {
     res.status(400).send('no url provided');
     res.end();
@@ -41,7 +56,7 @@ app.get('/expand', (req, res) => {
 });
 
 app.get('/:urlcode', (req, res) => {
-  Yotta.find({ yotta_code: req.params.urlcode }, (err, record) => {
+  YottaModel.find({ yotta_code: req.params.urlcode }, (err, record) => {
     if (err) {
       res.status(400).send('error while searching');
       res.end();
@@ -61,7 +76,7 @@ app.get('/:urlcode', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('yotta-url running:', PORT);
-  // yottacize('http://google.com');
-  // yottacize('http://google.com/');
+  yottacize('http://google.com');
+  yottacize('http://google.com/', { debug: true });
 });
 
