@@ -1,7 +1,7 @@
-const path = require('path');
+const fs = require('fs');
 
 // Check for .env
-if(path.existsSync('.env')) {
+if(fs.statSync('.env')) {
   require('dotenv').config();
 }
 else {
@@ -9,6 +9,7 @@ else {
 }
 
 const express = require('express');
+const path = require('path');
 const yotta = require('./server/controllers/yotta');
 
 const app = express();
