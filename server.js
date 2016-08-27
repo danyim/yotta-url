@@ -1,6 +1,7 @@
 const path = require('path');
 
-if(path.exists('.env')) {
+// Check for .env
+if(path.existsSync('.env')) {
   require('dotenv').config();
 }
 else {
