@@ -4,7 +4,7 @@
 
 **[Live Link](https://yotta-url.herokuapp.com/)**
 
-> _Yotta_ is the largest decimal unit prefix in the metric system, denoting a factor of 10 or 1000000000000000000000000
+> _Yotta_ is the largest decimal unit prefix in the metric system, denoting a factor of 10^24 or 1000000000000000000000000
 
 URL shortening is _so_ yesterday. What if we instead lengthened a URL into a giant _wall of hashed text_? yotta-url does just that. It will take your URL and expand it to the maximum allowable length (a limit imposed by the stepchild of browsers: 2083 characters for IE).
 
