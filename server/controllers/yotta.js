@@ -3,8 +3,8 @@ const YottaModel = require('../models/Yotta');
 
 exports.yottacode = async(function* (req, res, next, id) {
   try {
-    req.yottaUrl = yield YottaModel.getUrl(id);
-    if(!req.yottaUrl) return next(new Error(`yottacode not found`));
+    req.yotta = yield YottaModel.getByYottaCode(id);
+    if(!req.yotta) return next(new Error(`yottacode not found`));
   }
   catch(err) {
     return next(err)
@@ -67,7 +67,9 @@ exports.expand = (req, res) => {
 };
 
 exports.fetch = (req, res) => {
-  res.redirect(req.yottaUrl.target_url);
+  YottaModel.incrementVisit(req.yotta.yotta_code).then(() => {
+    res.redirect(req.yotta.target_url);
+  });
 };
 
 exports.default = (req, res) => {

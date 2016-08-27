@@ -12,6 +12,7 @@ const yottaSchema = new Schema({
   yotta_code: { type: String, index: false },
   created_on: Date,
   updated_on: Date,
+  visits: Number
 });
 
 yottaSchema.pre('save', function(next) {
@@ -32,6 +33,11 @@ yottaSchema.pre('save', function(next) {
     this.yotta_code = yottaHash.yottacize(this.target_url);
   }
 
+  // Initialize the visits
+  if (!this.visits) {
+    this.visits = 0;
+  }
+
   next();
 });
 
@@ -42,10 +48,12 @@ yottaSchema.methods = {
 }
 
 yottaSchema.statics = {
-  getUrl: function(yottacode) {
+  getByYottaCode: function(yottacode) {
     return this.findOne({ yotta_code: yottacode })
-      .select('target_url')
       .exec();
+  },
+  incrementVisit: function(yottaCode) {
+    return this.update({ yotta_code: yottaCode }, { $inc: { visits: 1 } });
   }
 }
 
