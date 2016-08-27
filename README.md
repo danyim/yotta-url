@@ -1,4 +1,5 @@
-# yotta-url
+![http://yimd.net/wp-content/uploads/2016/08/yt-logo-1024x229.png](http://yimd.net/wp-content/uploads/2016/08/yt-logo-1024x229.png)
+
 [![Build Status](https://travis-ci.org/danyim/yotta-url.svg?branch=master)](https://travis-ci.org/danyim/yotta-url)
 
 **[Live Link](https://yotta-url.herokuapp.com/)**
