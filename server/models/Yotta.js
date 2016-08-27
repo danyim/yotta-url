@@ -11,16 +11,14 @@ const yottaSchema = new Schema({
   target_url: { type: String, required: true, unique: true },
   yotta_code: { type: String, index: false },
   created_on: Date,
-  updated_on: Date,
+  last_visited: Date,
   visits: Number
 });
 
 yottaSchema.pre('save', function(next) {
-  // Update the date fields
-  const currDate = new Date();
-  this.updated_on = currDate;
+  // Update the created date field
   if (!this.created_on) {
-    this.created_on = currDate;
+    this.created_on = new Date();
   }
 
   // Sanitize the URL
@@ -53,7 +51,13 @@ yottaSchema.statics = {
       .exec();
   },
   incrementVisit: function(yottaCode) {
-    return this.update({ yotta_code: yottaCode }, { $inc: { visits: 1 } });
+    return this.update(
+      { yotta_code: yottaCode },
+      {
+        $inc: { visits: 1 },
+        $set: { last_visited: new Date() }
+      }
+    );
   }
 }
 
