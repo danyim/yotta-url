@@ -1,10 +1,11 @@
 const fs = require('fs');
 
 // Check for .env
-if(fs.statSync('.env')) {
+try {
+  fs.statSync('.env')
   require('dotenv').config();
 }
-else {
+catch(err) {
   console.warn('No .env file found; assuming Heroku deployment');
 }
 
