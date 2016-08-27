@@ -25,11 +25,13 @@
       </div>
     </div>
     <footer>
-      <div>a project by <a href="https://github.com/danyim/" target="_blank">danyim</a></div>
+      <div>a <span onclick="toggleEasterEgg(!enableEasterEgg)">project</span> by <a href="https://github.com/danyim/" target="_blank">danyim</a></div>
     </footer>
   </main>
 
   <script type="text/javascript">
+    let enableEasterEgg = false;
+
     const toggleFields = (value, forceValue) => {
       const result = document.getElementById('yottacode');
       const link = document.getElementById('link');
@@ -135,15 +137,31 @@
       }
     };
 
-    // Trigger a chance to create a quote if the mouse is moved within the body
-    document.querySelector('body').addEventListener('mousemove', e => trackMouse(e));
+    let interval;
+    let listener;
+    const toggleEasterEgg = (on = true) => {
+      if(on === true) {
+        // Trigger a chance to create a quote if the mouse is moved within the body
+        listener = e => trackMouse(e);
+        document.querySelector('body').addEventListener('mousemove', listener);
 
-    // Randomly create a quote
-    setInterval(() => {
-      if(Math.floor(Math.random() * 100) + 1 <= 10) {
-        createQuote();
+        // Randomly create a quote
+        interval = setInterval(() => {
+          if(Math.floor(Math.random() * 100) + 1 <= 10) {
+            createQuote();
+          }
+        }, 500);
+        enableEasterEgg = true;
+        console.log('egg on');
       }
-    }, 500);
+      else {
+        document.querySelector('body').removeEventListener('mousemove', listener);
+        clearInterval(interval);
+        enableEasterEgg = false;
+        console.log('egg off');
+      }
+    }
+
   </script>
 </body>
 </html>
