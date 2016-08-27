@@ -1,10 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>yotta-url</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>wow, yotta. such amaze.</h1>
+  <main class="container">
+    <div class="cover">
+      <h1>yotta-url</h1>
+    </div>
+    <div class="content-row">
+      <div class="content">
+        <form id="yottaform" onsubmit="return yottacize()">
+          <!-- <label for="url">URL:</label> -->
+          <input type="text" name="url" placeholder="http://google.com" />
+          <button type="submit" class="inverse">yottaicize!</button>
+        </form>
+        <br />
+        <a id="link" href="/">Go to URL</a>
+        <textarea id="yottacode" disabled="true" rows="15"></textarea>
+      </div>
+    </div>
+  </main>
 
+  <script type="text/javascript">
+    const yottacize = () => {
+      const url = document.querySelector('#yottaform input[name="url"]').value;
+      const result = document.getElementById('yottacode');
+      const link = document.getElementById('link');
+      if(url !== '') {
+        const req = new XMLHttpRequest();
+        let res;
+        let finalUrl;
+        req.onreadystatechange = function() {
+          if(req.readyState === 4) {
+            if(req.status === 200 || req.status === 201) {
+              res = JSON.parse(req.responseText);
+              finalUrl = `${window.location.protocol}//${window.location.host}/api/${res.yottacode}`;
+              result.value = finalUrl;
+              link.href = finalUrl;
+              result.disabled = false;
+            }
+            else if(req.status === 500) {
+              console.log('there was an error');
+            }
+          }
+        };
+        req.open('GET', `/api/expand?q=${url}`);
+        req.send();
+      }
+      return false;
+    };
+  </script>
 </body>
 </html>

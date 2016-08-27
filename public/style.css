@@ -1,0 +1,66 @@
+html, body {
+  background-color: #FFE874;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 4.0rem;
+}
+
+button, input, textarea {
+  background-color: #FFE874;
+  color: black;
+  border: 1px solid black;
+  padding: 0.5rem;
+  font-size: 1.0rem;
+}
+
+button.inverse {
+  background-color: black;
+  color: #FFE874;
+}
+
+a, a:hover, a:active, a:visited {
+  color: black;
+}
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: center;
+  justify-content: center;
+}
+
+.cover {
+  padding: 2.0rem;
+  background-color: black;
+  color: #FFE874;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  order: 1;
+}
+
+.content-row {
+  display: flex;
+  flex: 1 0;
+  flex-flow: row nowrap;
+  order: 2;
+  justify-content: center;
+}
+
+.content {
+  padding: 2.0rem;
+  background-color: #FFE874;
+  display: flex;
+  // flex: 0 0 300px;
+  flex-flow: column nowrap;
+  // justify-content: space-between;
+}
