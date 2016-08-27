@@ -147,4 +147,9 @@ const yottacize = (input, options) => {
   return result;
 };
 
-module.exports = yottacize;
+module.exports = {
+  yottacize,
+  compress,
+  finalization,
+  block
+};

@@ -1,6 +1,7 @@
 html, body {
   background-color: #FFE874;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Exo', sans-serif;
+  font-weight: 300;
   font-size: 100%;
   padding: 0;
   margin: 0;
@@ -12,14 +13,20 @@ html, body {
 
 h1 {
   font-size: 4.0rem;
+  margin: 0.2rem 0;
+  font-weight: 700;
+  animation: fadeInLeft 2.5s;
 }
 
 button, input, textarea {
+  font-family: 'Exo', sans-serif;
+  font-weight: 300;
   background-color: #FFE874;
   color: black;
   border: 1px solid black;
   padding: 0.5rem;
   font-size: 1.0rem;
+  transition: all 0.2s ease;
 }
 
 button.inverse {
@@ -29,6 +36,24 @@ button.inverse {
 
 a, a:hover, a:active, a:visited {
   color: black;
+}
+
+label {
+  font-size: 0.8rem;
+  color: #F05533;
+  transition: all 0.2s ease;
+  flex: 1 0 100%;
+  margin-bottom: 0.5rem;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 1.5rem;
+}
+
+form input {
+  flex: 1 1;
 }
 
 .container {
@@ -58,9 +83,65 @@ a, a:hover, a:active, a:visited {
 
 .content {
   padding: 2.0rem;
-  background-color: #FFE874;
+  // background-color: #FFE874;
   display: flex;
-  // flex: 0 0 300px;
+  // flex-basis: 500px;
+  flex: 0 0 500px;
   flex-flow: column nowrap;
-  // justify-content: space-between;
+  animation: fadeInDown 2.5s;
+}
+
+footer {
+  order: 3;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #DECA63;
+  animation: fadeIn 2.5s;
+}
+footer a, a:hover, a:active, a:visited {
+  color: #DECA63;
+}
+
+.url {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.grey {
+  color: #C0c0c0;
+}
+
+@keyframes fadeInDown {
+  from {
+    position: relative;
+    top: -1.5rem;
+    opacity: 0;
+  }
+  to {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes fadeInLeft {
+  from {
+    position: relative;
+    left: -4.0rem;
+    opacity: 0;
+  }
+  to {
+    position: relative;
+    left: 0;
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

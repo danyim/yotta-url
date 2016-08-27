@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const yottacize = require('../yotta-hash');
+const yottaHash = require('../yotta-hash');
 const config = require('../config');
 
 mongoose.connect(`mongodb://${config.mongo.user}:${config.mongo.password}@${config.mongo.hostname}`);
@@ -22,18 +22,23 @@ yottaSchema.pre('save', function(next) {
     this.created_on = currDate;
   }
 
+  // Sanitize the URL
+  if(!this.target_url.startsWith('http://') && !this.target_url.startsWith('https://')) {
+    this.target_url = `http://${this.target_url}`;
+  }
+
   // Create a yotta code if it doesn't exist
   if (!this.yotta_code) {
-    this.yotta_code = yottacize(this.target_url);
+    this.yotta_code = yottaHash.yottacize(this.target_url);
   }
 
   next();
 });
 
 yottaSchema.methods = {
-  generateYotta: () => {
-    this.yotta_code = yottacize(this.target_urL);
-  }
+  // generateYotta: () => {
+  //   this.yotta_code = yottaHash.yottacize(this.target_urL);
+  // }
 }
 
 yottaSchema.statics = {

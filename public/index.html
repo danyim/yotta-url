@@ -3,33 +3,79 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>yotta-url</title>
+  <link href="https://fonts.googleapis.com/css?family=Exo:300,700,800" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <main class="container">
-    <div class="cover">
+    <header class="cover">
       <h1>yotta-url</h1>
-    </div>
+    </header>
     <div class="content-row">
       <div class="content">
         <form id="yottaform" onsubmit="return yottacize()">
-          <!-- <label for="url">URL:</label> -->
-          <input type="text" name="url" placeholder="http://google.com" />
+          <label for="url" style="opacity: 0;"></label>
+          <input type="text" name="url" placeholder="http://google.com" value="http://" />
           <button type="submit" class="inverse">yottaicize!</button>
         </form>
-        <br />
-        <a id="link" href="/">Go to URL</a>
-        <textarea id="yottacode" disabled="true" rows="15"></textarea>
+        <textarea id="yottacode" rows="15" style="opacity: 0;"></textarea>
+        <div class="url">
+          <a id="link" style="opacity: 0;">Go to URL</a>
+        </div>
       </div>
     </div>
+    <footer>
+      <div>a project by <a href="https://github.com/danyim/" target="_blank">danyim</a></div>
+    </footer>
   </main>
 
   <script type="text/javascript">
-    const yottacize = () => {
-      const url = document.querySelector('#yottaform input[name="url"]').value;
+    const toggleFields = (value, forceValue) => {
       const result = document.getElementById('yottacode');
       const link = document.getElementById('link');
-      if(url !== '') {
+
+      if(result.disabled === true || (forceValue && forceValue === true)) {
+        // result.disabled = false;
+        result.style = 'opacity: 1;';
+        result.value = value;
+        link.href = value;
+        link.style = 'opacity: 1;';
+      }
+      else {
+        // result.disabled = false;
+        result.style = 'opacity: 0;';
+        result.value = '';
+        link.removeAttribute('href');
+        link.style = 'opacity: 0;';
+      }
+    };
+
+    const toggleValidation = (msg, forceValue) => {
+      const label = document.querySelector('#yottaform label[for="url"]');
+
+      if(label.style = 'opacity: 0;' || (forceValue && forceValue === true)) {
+        label.innerHTML = msg;
+        label.style = 'opacity: 1;';
+      }
+      else {
+        label.innerHTML = '';
+        label.style = 'opacity: 0;';
+      }
+    };
+
+    const validURL = str => {
+      const pattern = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+      if(!pattern.test(str)) {
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    const yottacize = () => {
+      const url = document.querySelector('#yottaform input[name="url"]').value;
+      if(url !== '' && validURL(url)) {
+        toggleValidation('', false);
         const req = new XMLHttpRequest();
         let res;
         let finalUrl;
@@ -37,18 +83,20 @@
           if(req.readyState === 4) {
             if(req.status === 200 || req.status === 201) {
               res = JSON.parse(req.responseText);
-              finalUrl = `${window.location.protocol}//${window.location.host}/api/${res.yottacode}`;
-              result.value = finalUrl;
-              link.href = finalUrl;
-              result.disabled = false;
+              finalUrl = `${window.location.protocol}//${window.location.host}/${res.yottacode}`;
+              toggleFields(finalUrl, true);
             }
             else if(req.status === 500) {
-              console.log('there was an error');
+              console.error('there was an error', req.responseText);
+              toggleFields(finalUrl, false);
             }
           }
         };
-        req.open('GET', `/api/expand?q=${url}`);
+        req.open('GET', `/expand?q=${url}`);
         req.send();
+      }
+      else {
+        toggleValidation('Enter a valid URL, e.g. http://google.com', true);
       }
       return false;
     };

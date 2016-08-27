@@ -20,9 +20,9 @@ app.use(favicon(path.join(__dirname, '/public/images/favicon.ico')));
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.param('yottacode', yotta.yottacode);
-app.get('/api/expand', yotta.expand);
-app.get('/api/:yottacode', yotta.fetch);
-app.get('/api/', yotta.default);
+app.get('/expand', yotta.expand);
+app.get('/:yottacode', yotta.fetch);
+// app.get('/api/', yotta.default);
 // app.get('/', (req, res) => {
 //   res.render('../public/index.html');
 // });
