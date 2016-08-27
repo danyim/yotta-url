@@ -1,4 +1,7 @@
 # yotta-url
+[![Build Status](https://travis-ci.org/danyim/yotta-url.svg?branch=master)](https://travis-ci.org/danyim/yotta-url)
+
+**[Live Link](https://yotta-url.herokuapp.com/)**
 
 > _Yotta_ is the largest decimal unit prefix in the metric system, denoting a factor of 10 or 1000000000000000000000000
 
