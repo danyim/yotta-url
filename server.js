@@ -1,7 +1,13 @@
-require('dotenv').config();
+const path = require('path');
+
+if(path.exists('.env')) {
+  require('dotenv').config();
+}
+else {
+  console.warn('No .env file found; assuming Heroku deployment');
+}
 
 const express = require('express');
-const path = require('path');
 const yotta = require('./server/controllers/yotta');
 
 const app = express();
