@@ -1,8 +1,5 @@
-const fs = require('fs');
-
-// Check for .env
 try {
-  fs.statSync('.env')
+  require('fs').statSync('.env');
   require('dotenv').config();
 }
 catch(err) {
@@ -20,17 +17,10 @@ app.use(favicon(path.join(__dirname, '/public/images/favicon.ico')));
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.param('yottacode', yotta.yottacode);
-app.get('/expand', yotta.expand);
+app.get('/expand', yotta.create);
 app.get('/:yottacode', yotta.fetch);
-// app.get('/api/', yotta.default);
-// app.get('/', (req, res) => {
-//   res.render('../public/index.html');
-// });
 
 app.listen(process.env.PORT || 8080, () => {
   console.log('yotta-url running on:', process.env.PORT || 8080);
-  // Testing
-  // yottacize('http://google.com');
-  // yottacize('http://google.com/', { debug: true });
 });
 

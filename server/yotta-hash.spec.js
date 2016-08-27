@@ -27,3 +27,8 @@ test('should compress n blocks into one', t => {
   // t.true(result.every(x => x.replace(/[abc]+/g, '') === '') === true);
 });
 
+test('should hash to different values', t => {
+  const test1 = yotta.yottacize('http://google.com');
+  const test2 = yotta.yottacize('http://google.com/');
+  t.true(test1 !== test2);
+});

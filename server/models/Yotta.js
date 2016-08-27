@@ -50,6 +50,10 @@ yottaSchema.statics = {
     return this.findOne({ yotta_code: yottacode })
       .exec();
   },
+  getByUrl: function(url) {
+    return this.findOne({ target_url: url })
+      .exec();
+  },
   incrementVisit: function(yottaCode) {
     return this.update(
       { yotta_code: yottaCode },

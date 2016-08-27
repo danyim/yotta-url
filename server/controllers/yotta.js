@@ -12,14 +12,13 @@ exports.yottacode = async(function* (req, res, next, id) {
   next();
 });
 
-exports.expand = (req, res) => {
+exports.create = (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const message = {};
 
   if (req.query !== {} && req.query.q) {
-    const query = YottaModel.findOne({ target_url: req.query.q });
-
-    query.exec().then(
+    YottaModel.getByUrl(req.query.q)
+    .then(
       (doc) => {
         if (doc) {
           message.yottacode = doc.yotta_code;
@@ -57,9 +56,8 @@ exports.expand = (req, res) => {
         res.end();
       }
     );
-
   } else {
-    message.msg = 'no url provided';
+    message.msg = 'Missing a parameter';
     res.status(400).send(message);
     // res.status(400).send('no url provided');
     res.end();
