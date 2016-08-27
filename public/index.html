@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>yotta-url</title>
-  <link href="https://fonts.googleapis.com/css?family=Exo:300,700,800" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Exo:300,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -35,14 +35,12 @@
       const link = document.getElementById('link');
 
       if(result.disabled === true || (forceValue && forceValue === true)) {
-        // result.disabled = false;
         result.style = 'opacity: 1;';
         result.value = value;
         link.href = value;
         link.style = 'opacity: 1;';
       }
       else {
-        // result.disabled = false;
         result.style = 'opacity: 0;';
         result.value = '';
         link.removeAttribute('href');
@@ -53,7 +51,7 @@
     const toggleValidation = (msg, forceValue) => {
       const label = document.querySelector('#yottaform label[for="url"]');
 
-      if(label.style = 'opacity: 0;' || (forceValue && forceValue === true)) {
+      if(label.style === 'opacity: 0;' || (forceValue && forceValue === true)) {
         label.innerHTML = msg;
         label.style = 'opacity: 1;';
       }
@@ -63,7 +61,7 @@
       }
     };
 
-    const validURL = str => {
+    const isValidUrl = str => {
       const pattern = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
       if(!pattern.test(str)) {
         return false;
@@ -74,7 +72,7 @@
 
     const yottacize = () => {
       const url = document.querySelector('#yottaform input[name="url"]').value;
-      if(url !== '' && validURL(url)) {
+      if(url !== '' && isValidUrl(url)) {
         toggleValidation('', false);
         const req = new XMLHttpRequest();
         let res;
@@ -100,6 +98,52 @@
       }
       return false;
     };
+
+    const target = document.querySelector('div.content-row');
+    const quotes = [
+      '<em>Expand</em> your horizons.',
+      'Bigger is <em>always</em> better.',
+      'There\'s a <em>long</em> road ahead.',
+      'You\'ve been <em>long</em>ing for a product like this.',
+      'Yotta take better care of yourself.',
+      '"Black and yellow, black and yellow, black and yellow."  –W. Kalifa',
+      'Ideas like these will change the world.'
+    ];
+    const createQuote = () => {
+      const elementWidth = 350; // in px
+      // Viewport subtracted by element width
+      const maxX = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - elementWidth;
+      const randX = Math.floor(Math.random() * maxX) + 100;
+      const randY = Math.floor(Math.random() * 400) + target.offsetTop;
+
+      const container = document.createElement('span');
+      container.style = `overflow: xy; width: 0; height: 0; position: absolute; top: ${randY}px; left: ${randX}px;`;
+      const el = document.createElement('div');
+      el.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
+      el.style = `width: ${elementWidth}px;`;
+      container.appendChild(el);
+      target.appendChild(container);
+      el.className = 'quote';
+      setTimeout(x => {
+        container.removeChild(el);
+        target.removeChild(container);
+      }, 6500);
+    };
+    const trackMouse = (e) => {
+      if(e.clientY > target.offsetTop && e.clientY > target.offsetLeft && Math.floor(Math.random() * 100) + 1 <= 2) {
+        createQuote();
+      }
+    };
+
+    // Trigger a chance to create a quote if the mouse is moved within the body
+    document.querySelector('body').addEventListener('mousemove', e => trackMouse(e));
+
+    // Randomly create a quote
+    setInterval(() => {
+      if(Math.floor(Math.random() * 100) + 1 <= 10) {
+        createQuote();
+      }
+    }, 500);
   </script>
 </body>
 </html>

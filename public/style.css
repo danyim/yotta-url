@@ -27,6 +27,7 @@ button, input, textarea {
   padding: 0.5rem;
   font-size: 1.0rem;
   transition: all 0.2s ease;
+  z-index: 1;
 }
 
 button.inverse {
@@ -41,15 +42,18 @@ a, a:hover, a:active, a:visited {
 label {
   font-size: 0.8rem;
   color: #F05533;
-  transition: all 0.2s ease;
+  transition: all 0.8s ease;
+  opacity: 0;
   flex: 1 0 100%;
   margin-bottom: 0.5rem;
+  z-index: 1;
 }
 
 form {
   display: flex;
   flex-flow: row wrap;
   margin-bottom: 1.5rem;
+  z-index: 1;
 }
 
 form input {
@@ -71,6 +75,16 @@ form input {
   flex-flow: row nowrap;
   justify-content: flex-end;
   order: 1;
+}
+
+.quote {
+  color: #111;
+  animation: quoteFade 6.5s linear;
+  z-index: -99;
+}
+
+.cover h1 {
+  order: 2;
 }
 
 .content-row {
@@ -98,7 +112,7 @@ footer {
   justify-content: center;
   font-size: 0.8rem;
   color: #DECA63;
-  animation: fadeIn 2.5s;
+  animation: fadeIn 4.5s;
 }
 footer a, a:hover, a:active, a:visited {
   color: #DECA63;
@@ -143,5 +157,32 @@ footer a, a:hover, a:active, a:visited {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes quoteFade {
+  0% {
+    position: relative;
+    top: 0rem;
+    opacity: 0;
+    transform: scale(0.6, 0.6);
+  }
+  50% {
+    position: relative;
+    top: 0rem;
+    opacity: 1;
+    transform: scale(0.95, 0.95);
+  }
+  75% {
+    position: relative;
+    top: 0.5rem;
+    opacity: .75;
+    transform: scale(1.0, 1.0);
+  }
+  100% {
+    position: relative;
+    top: 1.0rem;
+    opacity: 0;
+    transform: scale(0.95, 0.95);
   }
 }
