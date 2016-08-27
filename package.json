@@ -4,7 +4,7 @@
   "description": "A URL expandificationifyzer",
   "main": "server.js",
   "scripts": {
-    "start:server": "node server/server.js",
+    "start": "./node_modules/.bin/cross-env NODE_ENV=development node server.js",
     "test": "ava -v **/*.spec.js",
     "watch": "ava -vw **/*.spec.js"
   },
@@ -23,6 +23,8 @@
   "homepage": "https://github.com/danyim/yotta-url#readme",
   "dependencies": {
     "co": "^4.6.0",
+    "cross-env": "^2.0.0",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "mongoose": "^4.5.10"
   },

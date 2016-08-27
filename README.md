@@ -18,7 +18,7 @@ The hashing function creates an [avalanche effect](https://en.wikipedia.org/wiki
 ## Installation
 1. Run `npm install` on the root directory to grab dependencies
 2. Copy `./.env.sample` to `./.env` and edit the file with your credentials
-3. Start the server via `npm run start:server`
+3. Start the server via `npm run start`
 4. Send a GET request to http://localhost:8080/expand?[your URL here]
     - It will return a URL you can share
 5. Send a GET request to http://localhost:8080/\[URL code\] (replace with your URL code returned from the previous step)
