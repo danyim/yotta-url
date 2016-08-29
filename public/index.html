@@ -13,7 +13,7 @@
     </header>
     <div class="content-row">
       <div class="content">
-        <form id="yottaform" onsubmit="return yottacize()">
+        <form id="yottaform" onsubmit="return yottacize();">
           <label for="url" style="opacity: 0;"></label>
           <input type="text" name="url" placeholder="http://google.com" value="http://" />
           <button type="submit" class="inverse">yotticize!</button>
@@ -30,11 +30,11 @@
   </main>
 
   <script type="text/javascript">
-    let enableEasterEgg = false;
+    var enableEasterEgg = false;
 
-    const toggleFields = (value, forceValue) => {
-      const result = document.getElementById('yottacode');
-      const link = document.getElementById('link');
+    var toggleFields = function(value, forceValue) {
+      var result = document.getElementById('yottacode');
+      var link = document.getElementById('link');
 
       if(result.disabled === true || (forceValue && forceValue === true)) {
         result.style = 'opacity: 1;';
@@ -50,8 +50,8 @@
       }
     };
 
-    const toggleValidation = (msg, forceValue) => {
-      const label = document.querySelector('#yottaform label[for="url"]');
+    var toggleValidation = function(msg, forceValue) {
+      var label = document.querySelector('#yottaform label[for="url"]');
 
       if(label.style === 'opacity: 0;' || (forceValue && forceValue === true)) {
         label.innerHTML = msg;
@@ -63,8 +63,8 @@
       }
     };
 
-    const isValidUrl = str => {
-      const pattern = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+    var isValidUrl = function(str) {
+      var pattern = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
       if(!pattern.test(str)) {
         return false;
       } else {
@@ -72,37 +72,43 @@
       }
     };
 
-    const yottacize = () => {
+    var yottacize = function() {
       const url = document.querySelector('#yottaform input[name="url"]').value;
-      if(url !== '' && isValidUrl(url)) {
-        toggleValidation('', false);
-        const req = new XMLHttpRequest();
-        let res;
-        let finalUrl;
-        req.onreadystatechange = function() {
-          if(req.readyState === 4) {
-            if(req.status === 200 || req.status === 201) {
-              res = JSON.parse(req.responseText);
-              finalUrl = `${window.location.protocol}//${window.location.host}/${res.yottacode}`;
-              toggleFields(finalUrl, true);
+      try {
+        if(url !== '' && isValidUrl(url)) {
+          toggleValidation('', false);
+          var req = new XMLHttpRequest();
+          var res;
+          var finalUrl;
+          req.onreadystatechange = function() {
+            if(req.readyState === 4) {
+              if(req.status === 200 || req.status === 201) {
+                res = JSON.parse(req.responseText);
+                finalUrl = `${window.location.protocol}//${window.location.host}/${res.yottacode}`;
+                toggleFields(finalUrl, true);
+              }
+              else if(req.status === 500) {
+                console.error('there was an error', req.responseText);
+                toggleFields(finalUrl, false);
+              }
             }
-            else if(req.status === 500) {
-              console.error('there was an error', req.responseText);
-              toggleFields(finalUrl, false);
-            }
-          }
-        };
-        req.open('GET', `/expand?q=${url}`);
-        req.send();
+          };
+          req.open('GET', `/expand?q=${url}`);
+          req.send();
+        }
+        else {
+          toggleValidation('Enter a valid URL, e.g. http://google.com', true);
+        }
       }
-      else {
-        toggleValidation('Enter a valid URL, e.g. http://google.com', true);
+      catch(err) {
+        console.err('Error while creating URL', err);
       }
+
       return false;
     };
 
-    const target = document.querySelector('div.content-row');
-    const quotes = [
+    var target = document.querySelector('div.content-row');
+    var quotes = [
       '<em>Expand</em> your horizons.',
       'Bigger is <em>always</em> better.',
       'There\'s a <em>long</em> road ahead.',
@@ -111,7 +117,7 @@
       '"Black and yellow, black and yellow, black and yellow."  –W. Kalifa',
       'Ideas like these will change the world.'
     ];
-    const createQuote = () => {
+    var createQuote = function() {
       const elementWidth = 350; // in px
       // Viewport subtracted by element width
       const maxX = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - elementWidth;
@@ -126,27 +132,29 @@
       container.appendChild(el);
       target.appendChild(container);
       el.className = 'quote';
-      setTimeout(x => {
+      setTimeout(function(x) {
         container.removeChild(el);
         target.removeChild(container);
       }, 6500);
     };
-    const trackMouse = (e) => {
+    var trackMouse = function(e) {
       if(e.clientY > target.offsetTop && e.clientY > target.offsetLeft && Math.floor(Math.random() * 100) + 1 <= 2) {
         createQuote();
       }
     };
 
-    let interval;
-    let listener;
-    const toggleEasterEgg = (on = true) => {
+    var interval;
+    var listener;
+    var toggleEasterEgg = function(on) {
       if(on === true) {
         // Trigger a chance to create a quote if the mouse is moved within the body
-        listener = e => trackMouse(e);
+        listener = function(e) {
+          return trackMouse(e);
+        }
         document.querySelector('body').addEventListener('mousemove', listener);
 
         // Randomly create a quote
-        interval = setInterval(() => {
+        interval = setInterval(function() {
           if(Math.floor(Math.random() * 100) + 1 <= 10) {
             createQuote();
           }
