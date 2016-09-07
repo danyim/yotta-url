@@ -31,6 +31,45 @@
 
   <script type="text/javascript">
     var enableEasterEgg = false;
+    var form = document.getElementById('yottaform');
+    form.addEventListener('submit', function(e) {
+      if(e && e.preventDefault) {
+        e.preventDefault();
+      }
+
+      var url = document.querySelector('#yottaform input[name="url"]').value;
+      try {
+        if(url !== '' && isValidUrl(url)) {
+          toggleValidation('', false);
+          var req = new XMLHttpRequest();
+          var res;
+          var finalUrl;
+          req.onreadystatechange = function() {
+            if(req.readyState === 4) {
+              if(req.status === 200 || req.status === 201) {
+                res = JSON.parse(req.responseText);
+                finalUrl = `${window.location.protocol}//${window.location.host}/${res.yottacode}`;
+                toggleFields(finalUrl, true);
+              }
+              else if(req.status === 500) {
+                console.error('there was an error', req.responseText);
+                toggleFields(finalUrl, false);
+              }
+            }
+          };
+          req.open('GET', `/expand?q=${url}`);
+          req.send();
+        }
+        else {
+          toggleValidation('Enter a valid URL, e.g. http://google.com', true);
+        }
+      }
+      catch(err) {
+        console.err('Error while creating URL', err);
+      }
+
+      return false;
+    });
 
     var toggleFields = function(value, forceValue) {
       var result = document.getElementById('yottacode');
@@ -73,7 +112,7 @@
     };
 
     var yottacize = function() {
-      const url = document.querySelector('#yottaform input[name="url"]').value;
+      var url = document.querySelector('#yottaform input[name="url"]').value;
       try {
         if(url !== '' && isValidUrl(url)) {
           toggleValidation('', false);
@@ -118,21 +157,21 @@
       'Ideas like these will change the world.'
     ];
     var createQuote = function() {
-      const elementWidth = 350; // in px
+      var elementWidth = 350; // in px
       // Viewport subtracted by element width
-      const maxX = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - elementWidth;
-      const randX = Math.floor(Math.random() * maxX) + 100;
-      const randY = Math.floor(Math.random() * 400) + target.offsetTop;
+      var maxX = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - elementWidth;
+      var randX = Math.floor(Math.random() * maxX) + 100;
+      var randY = Math.floor(Math.random() * 400) + target.offsetTop;
 
-      const container = document.createElement('span');
+      var container = document.createElement('span');
       container.style = `overflow: xy; width: 0; height: 0; position: absolute; top: ${randY}px; left: ${randX}px;`;
-      const el = document.createElement('div');
+      var el = document.createElement('div');
       el.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
       el.style = `width: ${elementWidth}px;`;
       container.appendChild(el);
       target.appendChild(container);
       el.className = 'quote';
-      setTimeout(function(x) {
+      setTimeout(function() {
         container.removeChild(el);
         target.removeChild(container);
       }, 6500);
