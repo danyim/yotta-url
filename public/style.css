@@ -22,8 +22,8 @@ button, input, textarea {
   font-family: 'Exo', sans-serif;
   font-weight: 300;
   background-color: #FFE874;
-  color: black;
-  border: 1px solid black;
+  color: #333331;
+  border: 1px solid #333331;
   padding: 0.5rem;
   font-size: 1.0rem;
   transition: all 0.2s ease;
@@ -31,12 +31,12 @@ button, input, textarea {
 }
 
 button.inverse {
-  background-color: black;
+  background-color: #333331;
   color: #FFE874;
 }
 
 a, a:hover, a:active, a:visited {
-  color: black;
+  color: #333331;
 }
 
 label {
@@ -69,7 +69,7 @@ form input {
 
 .cover {
   padding: 2.0rem;
-  background-color: black;
+  background-color: #333331;
   color: #FFE874;
   display: flex;
   flex-flow: row nowrap;
