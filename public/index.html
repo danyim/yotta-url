@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>yotta-url</title>
+  <title>yotta-url - The Best URL Expander Service</title>
   <link href="https://fonts.googleapis.com/css?family=Exo:300,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -76,16 +76,16 @@
       var link = document.getElementById('link');
 
       if(result.disabled === true || (forceValue && forceValue === true)) {
-        result.style = 'opacity: 1;';
+        result.style.opacity = 1;
         result.value = value;
         link.href = value;
-        link.style = 'opacity: 1;';
+        link.style.opacity = 1;
       }
       else {
-        result.style = 'opacity: 0;';
+        result.style.opacity = 0;
         result.value = '';
         link.removeAttribute('href');
-        link.style = 'opacity: 0;';
+        link.style.opacity = 0;
       }
     };
 
