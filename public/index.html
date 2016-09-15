@@ -92,13 +92,13 @@
     var toggleValidation = function(msg, forceValue) {
       var label = document.querySelector('#yottaform label[for="url"]');
 
-      if(label.style === 'opacity: 0;' || (forceValue && forceValue === true)) {
+      if(label.style.opacity === 0 || (forceValue && forceValue === true)) {
         label.innerHTML = msg;
-        label.style = 'opacity: 1;';
+        label.style.opacity = 1;
       }
       else {
         label.innerHTML = '';
-        label.style = 'opacity: 0;';
+        label.style.opacity = 0;
       }
     };
 
@@ -164,10 +164,10 @@
       var randY = Math.floor(Math.random() * 400) + target.offsetTop;
 
       var container = document.createElement('span');
-      container.style = `overflow: xy; width: 0; height: 0; position: absolute; top: ${randY}px; left: ${randX}px;`;
+      container.style.cssText = `overflow: xy; width: 0; height: 0; position: absolute; top: ${randY}px; left: ${randX}px;`;
       var el = document.createElement('div');
       el.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
-      el.style = `width: ${elementWidth}px;`;
+      el.style.width = `${elementWidth}px;`;
       container.appendChild(el);
       target.appendChild(container);
       el.className = 'quote';
