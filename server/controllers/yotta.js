@@ -4,10 +4,11 @@ const YottaModel = require('../models/Yotta');
 exports.yottacode = async(function* (req, res, next, id) {
   try {
     req.yotta = yield YottaModel.getByYottaCode(id);
-    if(!req.yotta) return next(new Error(`yottacode not found`));
+    if(!req.yotta) return next(new Error(`Yottacode not found.`));
   }
   catch(err) {
-    return next(err)
+    // return next(err);
+    return err;
   }
   next();
 });
