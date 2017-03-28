@@ -7,8 +7,9 @@ exports.yottacode = async(function* (req, res, next, id) {
     if(!req.yotta) return next(new Error(`Yottacode not found.`));
   }
   catch(err) {
-    // return next(err);
-    return err;
+    res.status(404)
+       .send(err.messsage);
+    return next(err);
   }
   next();
 });
